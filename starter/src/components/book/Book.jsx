@@ -21,7 +21,7 @@ export default function Book({ handleBookShelfChange, book }) {
             onChange={(event) =>
               handleBookShelfChange(book, event.target.value)
             }
-            value={book.shelf}
+            value={book.shelf ?? "none"}
           >
             {determineOptions().map((option, index) => (
               <option
