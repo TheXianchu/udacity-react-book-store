@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Book from "./book/Book";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { getDefaultLabel } from "./BookShelfType";
 import BookShelfContext from "./BookShelfContext";
 
@@ -16,7 +16,6 @@ export default function Bookshelf({ books, bookShelfType }) {
             return (
               <li key={index}>
                 <Book
-                  bookShelfType={bookShelfType}
                   book={book}
                   handleBookShelfChange={handleBookShelfChanged}
                 />

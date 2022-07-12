@@ -1,30 +1,16 @@
-import { CURRENTLY_READING, WANT_TO_READ, READ } from "../BookShelfType";
 import PropTypes from "prop-types";
-import { useMemo } from "react";
 import BookCover from "./BookCover";
 
-export default function Book({ handleBookShelfChange, bookShelfType, book }) {
-  const determineOptions = useMemo(() => {
-    const options = [{ value: "none", label: "Move to..." }];
-
-    switch (bookShelfType) {
-      case CURRENTLY_READING:
-        options.push({ value: "wantToRead", label: "Want to Read" });
-        options.push({ value: "read", label: "Read" });
-        break;
-      case WANT_TO_READ:
-        options.push({ value: "currentlyReading", label: "Currently Reading" });
-        options.push({ value: "read", label: "Read" });
-        break;
-      case READ:
-        options.push({ value: "currentlyReading", label: "Currently Reading" });
-        options.push({ value: "wantToRead", label: "Want to Read" });
-        break;
-    }
-    options.push({ value: "none", label: "None" });
-
-    return options;
-  }, [bookShelfType]);
+export default function Book({ handleBookShelfChange, book }) {
+  const determineOptions = () => {
+    return [
+      { value: "none", label: "Move to...", disabled: true },
+      { value: "currentlyReading", label: "Currently Reading" },
+      { value: "wantToRead", label: "Want to Read" },
+      { value: "read", label: "Read" },
+      { value: "none", label: "None" },
+    ];
+  };
 
   return (
     <div className="book">
@@ -37,17 +23,15 @@ export default function Book({ handleBookShelfChange, bookShelfType, book }) {
             }
             value={book.shelf}
           >
-            {determineOptions.map((option, index) => {
-              return (
-                <option
-                  value={option.value}
-                  disabled={option.label === "Move to..."}
-                  key={index}
-                >
-                  {option.label}
-                </option>
-              );
-            })}
+            {determineOptions().map((option, index) => (
+              <option
+                value={option.value}
+                disabled={option.value === book.shelf || option.disabled}
+                key={index}
+              >
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -59,6 +43,5 @@ export default function Book({ handleBookShelfChange, bookShelfType, book }) {
 
 Book.propTypes = {
   handleBookShelfChange: PropTypes.func.isRequired,
-  bookShelfType: PropTypes.string.isRequired,
   book: PropTypes.object.isRequired,
 };
