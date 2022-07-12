@@ -1,37 +1,35 @@
 import PropTypes from "prop-types";
 import Book from "./book/Book";
-import { useMemo } from "react";
-import { CURRENTLY_READING, READ, WANT_TO_READ } from "./BookShelfType";
+import { useContext, useMemo } from "react";
+import { getDefaultLabel } from "./BookShelfType";
+import BookShelfContext from "./BookShelfContext";
 
 export default function Bookshelf({ books, bookShelfType }) {
-	const generateTitle = useMemo(() => {
-		switch (bookShelfType) {
-			case CURRENTLY_READING:
-				return "Currently Reading";
-			case WANT_TO_READ:
-				return "Want To Read";
-			case READ:
-				return "Read";
-		}
-	}, [bookShelfType]);
+  const { handleBookShelfChanged } = useContext(BookShelfContext);
 
-	return (
-		<div className="bookshelf">
-			<h2 className="bookshelf-title">{generateTitle}</h2>
-			<div className="bookshelf-books">
-				<ol className="books-grid">
-					<li>
-						{books.map(book => {
-							return <Book bookShelfType={bookShelfType} book={book} />;
-						})}
-					</li>
-				</ol>
-			</div>
-		</div>
-	);
+  return (
+    <div className="bookshelf">
+      <h2 className="bookshelf-title">{getDefaultLabel(bookShelfType)}</h2>
+      <div className="bookshelf-books">
+        <ol className="books-grid">
+          {books.map((book, index) => {
+            return (
+              <li key={index}>
+                <Book
+                  bookShelfType={bookShelfType}
+                  book={book}
+                  handleBookShelfChange={handleBookShelfChanged}
+                />
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
+  );
 }
 
 Bookshelf.propTypes = {
-	books: PropTypes.array.isRequired,
-	bookShelfType: PropTypes.number.isRequired,
+  books: PropTypes.array,
+  bookShelfType: PropTypes.string.isRequired,
 };

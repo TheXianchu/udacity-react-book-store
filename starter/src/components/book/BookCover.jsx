@@ -1,19 +1,18 @@
 import PropTypes from "prop-types";
 
-export default function BookCover({ width, height, thumbnail }) {
-	return (
-		<div
-			className="book-cover"
-			style={{
-				width: width,
-				height: height,
-				backgroundImage: `url(${thumbnail})`,
-			}}></div>
-	);
+export default function BookCover({ imageLinks }) {
+  return (
+    <div
+      className="book-cover"
+      style={{
+        width: 125,
+        height: 190,
+        backgroundImage: `url(${imageLinks.smallThumbnail})`,
+      }}
+    ></div>
+  );
 }
 
 BookCover.propTypes = {
-	width: PropTypes.number.isRequired,
-	height: PropTypes.number.isRequired,
-	thumbnail: PropTypes.string.isRequired,
+  imageLinks: PropTypes.object.isRequired,
 };
