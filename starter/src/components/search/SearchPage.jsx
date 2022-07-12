@@ -1,18 +1,32 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { search } from "../../BooksAPI";
+import Bookshelf from "../BookShelf";
+import * as BookShelfTypes from "../BookShelfType";
 
-export default function SearchPage({ setHideSearchPage, handleSearchTerm }) {
+export default function SearchPage({ setHideSearchPage }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    if (searchTerm !== "") {
-      handleSearchTerm(searchTerm);
-    }
-
+    (async () => await handleSearch())();
     return () => {
-      // Reset Search term to empty once you exit the search page
-      handleSearchTerm("");
+      setBooks([]);
     };
+  }, [searchTerm]);
+
+  const handleSearch = useCallback(async () => {
+    try {
+      if (searchTerm !== "") {
+        const response = await search(searchTerm);
+        if (response && !response.error) {
+          setBooks(response);
+        }
+      }
+    } catch (error) {
+      setBooks([]);
+      console.error(error);
+    }
   }, [searchTerm]);
 
   return (
@@ -31,7 +45,9 @@ export default function SearchPage({ setHideSearchPage, handleSearchTerm }) {
         </div>
       </div>
       <div className="search-books-results">
-        <ol className="books-grid"></ol>
+        <ol className="books-grid">
+          <Bookshelf bookShelfType={BookShelfTypes.SEARCH} books={books} />
+        </ol>
       </div>
     </div>
   );
@@ -39,5 +55,4 @@ export default function SearchPage({ setHideSearchPage, handleSearchTerm }) {
 
 SearchPage.propTypes = {
   setHideSearchPage: PropTypes.func.isRequired,
-  handleSearchTerm: PropTypes.func.isRequired,
 };

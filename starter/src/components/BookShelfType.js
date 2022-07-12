@@ -1,6 +1,7 @@
 export const CURRENTLY_READING = "currentlyReading";
 export const WANT_TO_READ = "wantToRead";
 export const READ = "read";
+export const SEARCH = "search";
 
 export function getDefaultLabel(type) {
   switch (type) {
@@ -10,5 +11,7 @@ export function getDefaultLabel(type) {
       return "Want To Read";
     case READ:
       return "Read";
+    case SEARCH:
+      return "Search results";
   }
 }

@@ -2,23 +2,12 @@ import SearchPage from "./search/SearchPage";
 import Bookshelf from "./BookShelf";
 import * as BookShelfTypes from "./BookShelfType";
 import { useCallback, useEffect, useState } from "react";
-import { getAll, search, update } from "../BooksAPI";
+import { getAll, update } from "../BooksAPI";
 import BookShelfContext from "./BookShelfContext";
 
 export default function BookTracker() {
   const [showSearchPage, setShowSearchPage] = useState(false);
   const [books, setBooks] = useState([]);
-
-  const handleSearchTerm = useCallback(async (searchTerm) => {
-    try {
-      const books = await search(searchTerm);
-      if (books) {
-        setBooks(books);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
 
   const handleBookShelfChanged = useCallback(async (book, newShelf) => {
     try {
@@ -76,9 +65,8 @@ export default function BookTracker() {
       </div>
     </div>
   ) : (
-    <SearchPage
-      handleSearchTerm={handleSearchTerm}
-      setHideSearchPage={setShowSearchPage}
-    />
+    <BookShelfContext.Provider value={{ handleBookShelfChanged }}>
+      <SearchPage setHideSearchPage={setShowSearchPage} />
+    </BookShelfContext.Provider>
   );
 }
