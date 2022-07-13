@@ -2,15 +2,13 @@ import PropTypes from "prop-types";
 import BookCover from "./BookCover";
 
 export default function Book({ handleBookShelfChange, book }) {
-  const determineOptions = () => {
-    return [
-      { value: "none", label: "Move to...", disabled: true },
-      { value: "currentlyReading", label: "Currently Reading" },
-      { value: "wantToRead", label: "Want to Read" },
-      { value: "read", label: "Read" },
-      { value: "none", label: "None" },
-    ];
-  };
+  const determineOptions = () => [
+    { value: "none", label: "Move to...", disabled: true },
+    { value: "currentlyReading", label: "Currently Reading" },
+    { value: "wantToRead", label: "Want to Read" },
+    { value: "read", label: "Read" },
+    { value: "none", label: "None" },
+  ];
 
   return (
     <div className="book">

@@ -10,13 +10,6 @@ export default function SearchPage({ setHideSearchPage }) {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    (async () => await handleSearch())();
-    return () => {
-      setSearchBooks([]);
-    };
-  }, [searchTerm]);
-
   const handleSearch = useCallback(async () => {
     try {
       if (searchTerm !== "") {
@@ -29,7 +22,14 @@ export default function SearchPage({ setHideSearchPage }) {
       setSearchBooks([]);
       console.error(error);
     }
-  }, [searchTerm]);
+  }, [searchTerm, setSearchBooks]);
+
+  useEffect(() => {
+    (async () => await handleSearch())();
+    return () => {
+      setSearchBooks([]);
+    };
+  }, [handleSearch, searchTerm, setSearchBooks]);
 
   return (
     <div className="search-books">

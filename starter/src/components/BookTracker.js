@@ -10,15 +10,6 @@ export default function BookTracker() {
   const [libraryBooks, setLibraryBooks] = useState([]);
   const [searchBooks, setSearchBooks] = useState([]);
 
-  const handleBookShelfChanged = useCallback(async (book, newShelf) => {
-    try {
-      await update(book, newShelf);
-      await fetchBooks();
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   const fetchBooks = useCallback(async () => {
     try {
       const books = await getAll();
@@ -29,6 +20,18 @@ export default function BookTracker() {
       console.error(error);
     }
   }, []);
+
+  const handleBookShelfChanged = useCallback(
+    async (book, newShelf) => {
+      try {
+        await update(book, newShelf);
+        await fetchBooks();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [fetchBooks]
+  );
 
   useEffect(() => {
     (async () => await fetchBooks())();
