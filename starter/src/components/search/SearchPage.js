@@ -12,11 +12,13 @@ export default function SearchPage({ setHideSearchPage }) {
 
   const handleSearch = useCallback(async () => {
     try {
-      if (searchTerm !== "") {
+      if (searchTerm.length > 0) {
         const response = await search(searchTerm);
         if (response && !response.error) {
           setSearchBooks(response);
         }
+      } else {
+        setSearchBooks([]);
       }
     } catch (error) {
       setSearchBooks([]);
