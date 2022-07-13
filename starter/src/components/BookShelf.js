@@ -21,7 +21,18 @@ export default function BookShelf({ bookShelfType }) {
       case CURRENTLY_READING:
         return libraryBooks.filter((book) => book.shelf === bookShelfType);
       case SEARCH:
-        return searchBooks;
+        // Find books that you already have in your collection to merge the data
+        return searchBooks.map((searchBook) => {
+          const existingBook = libraryBooks.find(
+            (libBook) => searchBook.id === libBook.id
+          );
+
+          if (existingBook) {
+            return { ...searchBook, ...existingBook };
+          } else {
+            return searchBook;
+          }
+        });
     }
   }, [libraryBooks, searchBooks, bookShelfType]);
 
