@@ -1,17 +1,19 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { search } from "../../BooksAPI";
 import BookShelf from "../BookShelf";
 import * as BookShelfTypes from "../BookShelfType";
+import BookShelfContext from "../BookShelfContext";
 
 export default function SearchPage({ setHideSearchPage }) {
+  const { setSearchBooks } = useContext(BookShelfContext);
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [books, setBooks] = useState([]);
 
   useEffect(() => {
     (async () => await handleSearch())();
     return () => {
-      setBooks([]);
+      setSearchBooks([]);
     };
   }, [searchTerm]);
 
@@ -20,11 +22,11 @@ export default function SearchPage({ setHideSearchPage }) {
       if (searchTerm !== "") {
         const response = await search(searchTerm);
         if (response && !response.error) {
-          setBooks(response);
+          setSearchBooks(response);
         }
       }
     } catch (error) {
-      setBooks([]);
+      setSearchBooks([]);
       console.error(error);
     }
   }, [searchTerm]);
@@ -46,7 +48,7 @@ export default function SearchPage({ setHideSearchPage }) {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          <BookShelf bookShelfType={BookShelfTypes.SEARCH} books={books} />
+          <BookShelf bookShelfType={BookShelfTypes.SEARCH} />
         </ol>
       </div>
     </div>

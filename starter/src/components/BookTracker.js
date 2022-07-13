@@ -7,7 +7,8 @@ import BookShelfContext from "./BookShelfContext";
 
 export default function BookTracker() {
   const [showSearchPage, setShowSearchPage] = useState(false);
-  const [books, setBooks] = useState([]);
+  const [libraryBooks, setLibraryBooks] = useState([]);
+  const [searchBooks, setSearchBooks] = useState([]);
 
   const handleBookShelfChanged = useCallback(async (book, newShelf) => {
     try {
@@ -22,7 +23,7 @@ export default function BookTracker() {
     try {
       const books = await getAll();
       if (books) {
-        setBooks(books);
+        setLibraryBooks(books);
       }
     } catch (error) {
       console.error(error);
@@ -33,7 +34,8 @@ export default function BookTracker() {
     (async () => await fetchBooks())();
 
     return () => {
-      setBooks([]);
+      setLibraryBooks([]);
+      setSearchBooks([]);
     };
   }, []);
 
@@ -44,19 +46,12 @@ export default function BookTracker() {
       </div>
       <div className="list-books-content">
         <div>
-          <BookShelfContext.Provider value={{ handleBookShelfChanged }}>
-            <BookShelf
-              bookShelfType={BookShelfTypes.CURRENTLY_READING}
-              books={books.filter((book) => book.shelf === "currentlyReading")}
-            />
-            <BookShelf
-              bookShelfType={BookShelfTypes.WANT_TO_READ}
-              books={books.filter((book) => book.shelf === "wantToRead")}
-            />
-            <BookShelf
-              bookShelfType={BookShelfTypes.READ}
-              books={books.filter((book) => book.shelf === "read")}
-            />
+          <BookShelfContext.Provider
+            value={{ handleBookShelfChanged, libraryBooks }}
+          >
+            <BookShelf bookShelfType={BookShelfTypes.CURRENTLY_READING} />
+            <BookShelf bookShelfType={BookShelfTypes.WANT_TO_READ} />
+            <BookShelf bookShelfType={BookShelfTypes.READ} />
           </BookShelfContext.Provider>
         </div>
         <div className="open-search">
@@ -65,7 +60,14 @@ export default function BookTracker() {
       </div>
     </div>
   ) : (
-    <BookShelfContext.Provider value={{ handleBookShelfChanged }}>
+    <BookShelfContext.Provider
+      value={{
+        handleBookShelfChanged,
+        libraryBooks,
+        searchBooks,
+        setSearchBooks,
+      }}
+    >
       <SearchPage setHideSearchPage={setShowSearchPage} />
     </BookShelfContext.Provider>
   );
