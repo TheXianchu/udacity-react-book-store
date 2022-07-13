@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import { search } from "../../BooksAPI";
-import Bookshelf from "../BookShelf";
+import BookShelf from "../BookShelf";
 import * as BookShelfTypes from "../BookShelfType";
 
 export default function SearchPage({ setHideSearchPage }) {
@@ -46,7 +46,7 @@ export default function SearchPage({ setHideSearchPage }) {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          <Bookshelf bookShelfType={BookShelfTypes.SEARCH} books={books} />
+          <BookShelf bookShelfType={BookShelfTypes.SEARCH} books={books} />
         </ol>
       </div>
     </div>

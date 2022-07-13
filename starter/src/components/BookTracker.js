@@ -1,5 +1,5 @@
 import SearchPage from "./search/SearchPage";
-import Bookshelf from "./BookShelf";
+import BookShelf from "./BookShelf";
 import * as BookShelfTypes from "./BookShelfType";
 import { useCallback, useEffect, useState } from "react";
 import { getAll, update } from "../BooksAPI";
@@ -45,15 +45,15 @@ export default function BookTracker() {
       <div className="list-books-content">
         <div>
           <BookShelfContext.Provider value={{ handleBookShelfChanged }}>
-            <Bookshelf
+            <BookShelf
               bookShelfType={BookShelfTypes.CURRENTLY_READING}
               books={books.filter((book) => book.shelf === "currentlyReading")}
             />
-            <Bookshelf
+            <BookShelf
               bookShelfType={BookShelfTypes.WANT_TO_READ}
               books={books.filter((book) => book.shelf === "wantToRead")}
             />
-            <Bookshelf
+            <BookShelf
               bookShelfType={BookShelfTypes.READ}
               books={books.filter((book) => book.shelf === "read")}
             />

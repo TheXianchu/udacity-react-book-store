@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { getDefaultLabel } from "./BookShelfType";
 import BookShelfContext from "./BookShelfContext";
 
-export default function Bookshelf({ books, bookShelfType }) {
+export default function BookShelf({ books, bookShelfType }) {
   const { handleBookShelfChanged } = useContext(BookShelfContext);
 
   return (
@@ -28,7 +28,7 @@ export default function Bookshelf({ books, bookShelfType }) {
   );
 }
 
-Bookshelf.propTypes = {
+BookShelf.propTypes = {
   books: PropTypes.array,
   bookShelfType: PropTypes.string.isRequired,
 };
