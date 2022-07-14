@@ -11,6 +11,21 @@ To get started developing right away:
 - install all project dependencies with `npm install`
 - start the development server with `npm start`
 
+Custom packages used:
+```
+"@react-hookz/web": "^15.0.1",
+"@testing-library/jest-dom": "^5.11.4",
+"@testing-library/react": "^11.1.0",
+"@testing-library/user-event": "^12.1.10",
+"prop-types": "^15.8.1",
+"react": "^17.0.2",
+"react-dom": "^17.0.2",
+"react-router-dom": "^6.3.0",
+"react-scripts": "4.0.3",
+"react-spinners": "^0.13.3",
+"web-vitals": "^1.0.1"
+```
+
 ## What You're Getting
 
 ```bash
