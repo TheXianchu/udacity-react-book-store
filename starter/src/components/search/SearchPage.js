@@ -69,7 +69,7 @@ export default function SearchPage() {
               <RingLoader loading={loading} />
             </div>
           ) : (
-            <BookShelf bookShelfType={BookShelfTypes.SEARCH} />
+            <BookShelf bookShelfType={BookShelfTypes.SEARCH} fromSearchPage />
           )}
         </ol>
       </div>

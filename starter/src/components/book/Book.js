@@ -4,7 +4,7 @@ import { MoonLoader } from "react-spinners";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Book({ handleBookShelfChange, book }) {
+export default function Book({ handleBookShelfChange, book, fromSearchPage }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const determineOptions = () => [
@@ -26,7 +26,7 @@ export default function Book({ handleBookShelfChange, book }) {
   ) : (
     <div className="book">
       <div className="book-top">
-        <Link to={`/books/${book.id}`} state={{ book }}>
+        <Link to={`/books/${book.id}`} state={{ book, fromSearchPage }}>
           {book.imageLinks ? <BookCover imageLinks={book.imageLinks} /> : null}
         </Link>
         <div className="book-shelf-changer">
@@ -61,4 +61,9 @@ export default function Book({ handleBookShelfChange, book }) {
 Book.propTypes = {
   handleBookShelfChange: PropTypes.func.isRequired,
   book: PropTypes.object.isRequired,
+  fromSearchPage: PropTypes.bool,
+};
+
+Book.defaultProps = {
+  fromSearchPage: false,
 };

@@ -47,6 +47,7 @@ export default function BookShelf({ bookShelfType }) {
                 <Book
                   book={book}
                   handleBookShelfChange={handleBookShelfChanged}
+                  fromSearchPage
                 />
               </li>
             );
@@ -62,4 +63,5 @@ export default function BookShelf({ bookShelfType }) {
 
 BookShelf.propTypes = {
   bookShelfType: PropTypes.string.isRequired,
+  fromSearchPage: PropTypes.bool,
 };

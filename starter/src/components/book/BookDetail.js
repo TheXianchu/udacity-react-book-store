@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function BookDetail() {
   const location = useLocation();
-  const { book } = location.state;
+  const { book, fromSearchPage } = location.state;
 
   return book ? (
     <div className="list-books">
@@ -30,7 +30,7 @@ export default function BookDetail() {
       </div>
 
       <div className="return-detail">
-        <Link to="/">Close</Link>
+        <Link to={fromSearchPage ? "/search" : "/"}>Close</Link>
       </div>
     </div>
   ) : null;
