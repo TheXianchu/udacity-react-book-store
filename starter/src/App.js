@@ -1,10 +1,62 @@
 import "./App.css";
 import BookTracker from "./components/BookTracker";
+import { Routes, Route } from "react-router-dom";
+import SearchPage from "./components/search/SearchPage";
+import { useCallback, useEffect, useState } from "react";
+import { getAll, update } from "./BooksAPI";
+import BookShelfContext from "./components/BookShelfContext";
 
 function App() {
+  const [libraryBooks, setLibraryBooks] = useState([]);
+  const [searchBooks, setSearchBooks] = useState([]);
+
+  const fetchBooks = useCallback(async () => {
+    try {
+      const books = await getAll();
+      if (books) {
+        setLibraryBooks(books);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const handleBookShelfChanged = useCallback(
+    async (book, newShelf) => {
+      try {
+        await update(book, newShelf);
+        await fetchBooks();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [fetchBooks]
+  );
+
+  useEffect(() => {
+    (async () => await fetchBooks())();
+
+    return () => {
+      setLibraryBooks([]);
+      setSearchBooks([]);
+    };
+  }, []);
+
   return (
     <div className="app">
-      <BookTracker />
+      <BookShelfContext.Provider
+        value={{
+          handleBookShelfChanged,
+          libraryBooks,
+          searchBooks,
+          setSearchBooks,
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<BookTracker />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </BookShelfContext.Provider>
     </div>
   );
 }

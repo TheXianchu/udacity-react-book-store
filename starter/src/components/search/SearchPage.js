@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { search } from "../../BooksAPI";
 import BookShelf from "../BookShelf";
 import * as BookShelfTypes from "../BookShelfType";
 import BookShelfContext from "../BookShelfContext";
+import { Link } from "react-router-dom";
 
-export default function SearchPage({ setHideSearchPage }) {
+export default function SearchPage() {
   const { setSearchBooks } = useContext(BookShelfContext);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,9 +36,9 @@ export default function SearchPage({ setHideSearchPage }) {
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <a className="close-search" onClick={() => setHideSearchPage(false)}>
+        <Link to="/" className="close-search">
           Close
-        </a>
+        </Link>
         <div className="search-books-input-wrapper">
           <input
             type="text"
@@ -56,7 +56,3 @@ export default function SearchPage({ setHideSearchPage }) {
     </div>
   );
 }
-
-SearchPage.propTypes = {
-  setHideSearchPage: PropTypes.func.isRequired,
-};
