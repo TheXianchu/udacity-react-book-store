@@ -22,13 +22,15 @@ function App() {
   }, []);
 
   const handleBookShelfChanged = useCallback(
-    async (book, newShelf) => {
+    async (book, newShelf, setIsLoading) => {
+      setIsLoading(true);
       try {
         await update(book, newShelf);
         await fetchBooks();
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     },
     [fetchBooks]
   );
