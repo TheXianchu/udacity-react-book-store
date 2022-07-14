@@ -8,12 +8,12 @@ import { Link } from "react-router-dom";
 export default function SearchPage() {
   const { setSearchBooks } = useContext(BookShelfContext);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerms, setSearchTerms] = useState("");
 
   const handleSearch = useCallback(async () => {
     try {
-      if (searchTerm.length > 0) {
-        const response = await search(searchTerm);
+      if (searchTerms.length > 0) {
+        const response = await search(searchTerms);
         if (response && !response.error) {
           setSearchBooks(response);
         }
@@ -24,14 +24,14 @@ export default function SearchPage() {
       setSearchBooks([]);
       console.error(error);
     }
-  }, [searchTerm, setSearchBooks]);
+  }, [searchTerms, setSearchBooks]);
 
   useEffect(() => {
     (async () => await handleSearch())();
     return () => {
       setSearchBooks([]);
     };
-  }, [handleSearch, searchTerm, setSearchBooks]);
+  }, [handleSearch, searchTerms, setSearchBooks]);
 
   return (
     <div className="search-books">
@@ -43,8 +43,8 @@ export default function SearchPage() {
           <input
             type="text"
             placeholder="Search by title, author, or ISBN"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
+            value={searchTerms}
+            onChange={(event) => setSearchTerms(event.target.value)}
           />
         </div>
       </div>
