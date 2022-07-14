@@ -4,27 +4,32 @@ import BookShelf from "../BookShelf";
 import * as BookShelfTypes from "../BookShelfType";
 import BookShelfContext from "../BookShelfContext";
 import { Link } from "react-router-dom";
+import { useDebouncedCallback } from "@react-hookz/web";
 
 export default function SearchPage() {
   const { setSearchBooks } = useContext(BookShelfContext);
 
   const [searchTerms, setSearchTerms] = useState("");
 
-  const handleSearch = useCallback(async () => {
-    try {
-      if (searchTerms.length > 0) {
-        const response = await search(searchTerms);
-        if (response && !response.error) {
-          setSearchBooks(response);
+  const handleSearch = useDebouncedCallback(
+    async () => {
+      try {
+        if (searchTerms.length > 0) {
+          const response = await search(searchTerms);
+          if (response && !response.error) {
+            setSearchBooks(response);
+          }
+        } else {
+          setSearchBooks([]);
         }
-      } else {
+      } catch (error) {
         setSearchBooks([]);
+        console.error(error);
       }
-    } catch (error) {
-      setSearchBooks([]);
-      console.error(error);
-    }
-  }, [searchTerms, setSearchBooks]);
+    },
+    [searchTerms, setSearchBooks],
+    1000
+  );
 
   useEffect(() => {
     (async () => await handleSearch())();
