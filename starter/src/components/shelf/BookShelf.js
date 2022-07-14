@@ -10,7 +10,7 @@ import {
 } from "./BookShelfType";
 import BookShelfContext from "./BookShelfContext";
 
-export default function BookShelf({ bookShelfType }) {
+export default function BookShelf({ bookShelfType, fromSearchPage }) {
   const { handleBookShelfChanged, libraryBooks, searchBooks } =
     useContext(BookShelfContext);
 
@@ -47,7 +47,7 @@ export default function BookShelf({ bookShelfType }) {
                 <Book
                   book={book}
                   handleBookShelfChange={handleBookShelfChanged}
-                  fromSearchPage
+                  fromSearchPage={fromSearchPage}
                 />
               </li>
             );
