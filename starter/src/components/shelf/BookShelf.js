@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Book from "./book/Book";
+import Book from "../book/Book";
 import { useContext, useMemo } from "react";
 import {
   getDefaultLabel,

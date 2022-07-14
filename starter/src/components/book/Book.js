@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import BookCover from "./BookCover";
 import { MoonLoader } from "react-spinners";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Book({ handleBookShelfChange, book }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +26,9 @@ export default function Book({ handleBookShelfChange, book }) {
   ) : (
     <div className="book">
       <div className="book-top">
-        {book.imageLinks ? <BookCover imageLinks={book.imageLinks} /> : null}
+        <Link to={`/books/${book.id}`} state={{ book }}>
+          {book.imageLinks ? <BookCover imageLinks={book.imageLinks} /> : null}
+        </Link>
         <div className="book-shelf-changer">
           <select
             onChange={(event) => {

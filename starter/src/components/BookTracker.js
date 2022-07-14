@@ -1,5 +1,5 @@
-import BookShelf from "./BookShelf";
-import * as BookShelfTypes from "./BookShelfType";
+import BookShelf from "./shelf/BookShelf";
+import * as BookShelfTypes from "./shelf/BookShelfType";
 import { Link } from "react-router-dom";
 
 export default function BookTracker() {

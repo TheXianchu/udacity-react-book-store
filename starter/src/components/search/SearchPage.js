@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { search } from "../../BooksAPI";
-import BookShelf from "../BookShelf";
-import * as BookShelfTypes from "../BookShelfType";
-import BookShelfContext from "../BookShelfContext";
+import BookShelf from "../shelf/BookShelf";
+import * as BookShelfTypes from "../shelf/BookShelfType";
+import BookShelfContext from "../shelf/BookShelfContext";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "@react-hookz/web";
 import { RingLoader } from "react-spinners";

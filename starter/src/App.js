@@ -4,7 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import SearchPage from "./components/search/SearchPage";
 import { useCallback, useEffect, useState } from "react";
 import { getAll, update } from "./BooksAPI";
-import BookShelfContext from "./components/BookShelfContext";
+import BookShelfContext from "./components/shelf/BookShelfContext";
+import BookDetail from "./components/book/BookDetail";
 
 function App() {
   const [libraryBooks, setLibraryBooks] = useState([]);
@@ -48,6 +49,7 @@ function App() {
     <div className="app">
       <BookShelfContext.Provider
         value={{
+          fetchBooks,
           handleBookShelfChanged,
           libraryBooks,
           searchBooks,
@@ -57,6 +59,7 @@ function App() {
         <Routes>
           <Route path="/" element={<BookTracker />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/books/:id" element={<BookDetail />} />
         </Routes>
       </BookShelfContext.Provider>
     </div>
