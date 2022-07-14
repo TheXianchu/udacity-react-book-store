@@ -51,6 +51,9 @@ export default function BookShelf({ bookShelfType }) {
               </li>
             );
           })}
+          {determineBooks.length === 0 && bookShelfType === SEARCH && (
+            <h3>No results!</h3>
+          )}
         </ol>
       </div>
     </div>

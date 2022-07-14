@@ -12,6 +12,6 @@ export function getDefaultLabel(type) {
     case READ:
       return "Read";
     case SEARCH:
-      return "Search results";
+      return null;
   }
 }

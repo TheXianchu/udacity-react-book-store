@@ -1,15 +1,17 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { search } from "../../BooksAPI";
 import BookShelf from "../BookShelf";
 import * as BookShelfTypes from "../BookShelfType";
 import BookShelfContext from "../BookShelfContext";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "@react-hookz/web";
+import { RingLoader } from "react-spinners";
 
 export default function SearchPage() {
   const { setSearchBooks } = useContext(BookShelfContext);
 
   const [searchTerms, setSearchTerms] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = useDebouncedCallback(
     async () => {
@@ -26,15 +28,20 @@ export default function SearchPage() {
         setSearchBooks([]);
         console.error(error);
       }
+      setLoading(false);
     },
     [searchTerms, setSearchBooks],
     1000
   );
 
   useEffect(() => {
-    (async () => await handleSearch())();
+    (async () => {
+      setLoading(true);
+      await handleSearch();
+    })();
     return () => {
       setSearchBooks([]);
+      setLoading(false);
     };
   }, [handleSearch, searchTerms, setSearchBooks]);
 
@@ -49,13 +56,21 @@ export default function SearchPage() {
             type="text"
             placeholder="Search by title, author, or ISBN"
             value={searchTerms}
-            onChange={(event) => setSearchTerms(event.target.value)}
+            onChange={(event) => {
+              setSearchTerms(event.target.value);
+            }}
           />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          <BookShelf bookShelfType={BookShelfTypes.SEARCH} />
+          {loading ? (
+            <div>
+              <RingLoader loading={loading} />
+            </div>
+          ) : (
+            <BookShelf bookShelfType={BookShelfTypes.SEARCH} />
+          )}
         </ol>
       </div>
     </div>
