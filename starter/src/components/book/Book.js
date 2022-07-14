@@ -19,7 +19,9 @@ export default function Book({ handleBookShelfChange, book }) {
   }, []);
 
   return isLoading ? (
-    <MoonLoader loading={isLoading} />
+    <div className="container">
+      <MoonLoader loading={isLoading} />
+    </div>
   ) : (
     <div className="book">
       <div className="book-top">
