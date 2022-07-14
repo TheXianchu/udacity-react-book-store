@@ -22,9 +22,11 @@ export default function BookDetail() {
             <div className="book-authors">{book.authors}</div>
           </div>
         </div>
-        <h3>Rating: {book.averageRating}</h3>
+        {book.averageRating && <h3>Rating: {book.averageRating}</h3>}
 
-        <div className="line-break">{book.description}</div>
+        {book.description && (
+          <div className="line-break">{book.description}</div>
+        )}
       </div>
 
       <div className="return-detail">
